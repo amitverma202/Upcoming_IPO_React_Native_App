@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiKey = "pk_d9ded09f8f0d479eaaa9411adfcb09a3"; // Replace with your API Key
+const apiKey = ""; // Replace with your API Key
 
 export async function upcomingIpo(query) {
   try {
