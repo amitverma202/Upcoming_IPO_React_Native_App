@@ -1,20 +1,48 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import Auth from "./src/components/Auth";
+import Dashboard from "./src/components/Dashboard";
+import ExchangeRate from "./src/components/ExchangeRate";
 
-export default function App() {
+const Stack = createStackNavigator();
+
+function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Auth"
+          options={{ headerShown: false }}
+          component={() => <Auth onLogin={handleLogin} />}
+        />
+        {isLoggedIn && (
+          <>
+            <Stack.Screen
+              name="Dashboard"
+              options={{ title: "IPO's Dashboard" }}
+              component={() => <Dashboard onLogout={handleLogout} />}
+            />
+            <Stack.Screen
+              name="ExchangeRate"
+              options={{ title: "Exchange Rates List" }}
+              component={() => <ExchangeRate onLogout={handleLogout} />}
+            />
+          </>
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
